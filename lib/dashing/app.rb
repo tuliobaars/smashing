@@ -34,16 +34,18 @@ set :root, Dir.pwd
 set :sprockets,     Sprockets::Environment.new(settings.root)
 set :assets_prefix, '/assets'
 set :digest_assets, false
-set server: 'thin', connections: [], history_file: 'history.yml'
+set :server, 'thin'
+set :connections, []
+set :history_file, 'history.yml'
 set :public_folder, File.join(settings.root, 'public')
 set :views, File.join(settings.root, 'dashboards')
 set :default_dashboard, nil
 set :auth_token, nil
 
 if File.exists?(settings.history_file)
-  set history: YAML.load_file(settings.history_file)
+  set :history, YAML.load_file(settings.history_file)
 else
-  set history: {}
+  set :history, {}
 end
 
 %w(javascripts stylesheets fonts images).each do |path|
@@ -55,7 +57,7 @@ end
 end
 
 not_found do
-  send_file File.join(settings.public_folder, '404.html'), status: 404
+  send_file File.join(settings.public_folder, '404.html'), :status => 404
 end
 
 at_exit do
@@ -70,7 +72,7 @@ get '/' do
   redirect "/" + dashboard
 end
 
-get '/events', provides: 'text/event-stream' do
+get '/events', :provides => 'text/event-stream' do
   protected!
   response.headers['X-Accel-Buffering'] = 'no' # Disable buffering for nginx
   stream :keep_open do |out|
@@ -136,7 +138,7 @@ end
 
 def send_event(id, body, target=nil)
   body[:id] = id
-  body[:updatedAt] ||= Time.now.to_i
+  body[:updatedAt] ||= (Time.now.to_f * 1000.0).to_i 
   event = format_event(body.to_json, target)
   Sinatra::Application.settings.history[id] = event unless target == 'dashboards'
   Sinatra::Application.settings.connections.each { |out| out << event }

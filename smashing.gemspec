@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.summary     = "The wonderfully excellent dashboard framework."
   s.description = "A framework for pulling together an overview of data that is important to your team and displaying it easily on TVs around the office. You write a bit of ruby code to gather data from some services and let Smashing handle the rest - displaying that data in a wonderfully simple layout. Built for developers and hackers, Smashing is highly customizable while maintaining humble roots that make it approachable to beginners."
   s.author      = "Daniel Beauchamp"
-  s.homepage    = 'http://smashing.github.io'
+  s.homepage    = 'http://smashing.github.io/smashing'
   s.license     = "MIT"
 
   s.files = Dir['README.md', 'javascripts/**/*', 'templates/**/*','templates/**/.[a-z]*', 'lib/**/*']
@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency('sinatra', '~> 1.4.4')
   s.add_dependency('sinatra-contrib', '~> 1.4.2')
   s.add_dependency('thin', '~> 1.6.1')
-  s.add_dependency('rufus-scheduler', '~> 2.0.24')
+  s.add_dependency('rufus-scheduler', '~> 3.2.0')
   s.add_dependency('thor', '~> 0.19')
   s.add_dependency('sprockets', '~> 2.10.1')
   s.add_dependency('rack', '~> 1.5.4')
